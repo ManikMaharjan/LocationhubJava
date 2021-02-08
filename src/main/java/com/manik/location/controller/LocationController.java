@@ -7,16 +7,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.manik.location.enities.Location;
 import com.manik.location.service.LocationService;
+import com.manik.location.util.EmailUtil;
 
 @Controller
 public class LocationController {
 	@Autowired
 	LocationService service;
+	@Autowired
+	EmailUtil emailutil;
 	
 	@RequestMapping("/showCreate")
 	public String showCreate() {
@@ -30,6 +33,7 @@ public class LocationController {
 		Location locationSaved = service.saveLocation(location);
 		String msg = "Locaction saved with id " + locationSaved.getId();
 		modelMap.addAttribute("msg", msg);
+		emailutil.sendEmail("manikmaharjan1@gmail.com","location saved","savedbody done");
 		return "createLocation";
 
 	}
